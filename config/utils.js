@@ -1,22 +1,27 @@
-import React from 'react';
+const writeImport = (models) => {
+  return models.reduce(
+    (p, { key, path }) => p + `import ${key} from '${path}'; \n`,
+    '',
+  );
+};
+const writeInit = (models) => {
+  return models.reduce((p, { key }) => p + `init('${key}', ${key}); \n`, '');
+};
+
+const writeMainFile = (models) => {
+  return `import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Dispatcher, initModel, ModelContext, HookModel } from './useModel';
-import useCenter from 'D:/左胜杰测试文件/useModel/my-app1/src/models/useCenter.js'; 
-import useTest from 'D:/左胜杰测试文件/useModel/my-app1/src/models/useTest.js'; 
-import useUserInfo from 'D:/左胜杰测试文件/useModel/my-app1/src/models/useUserInfo.js'; 
-
+${writeImport(models)}
 
 const dispatcher = new Dispatcher();
 
 const init = initModel(dispatcher);
 
-init('useCenter', useCenter); 
-init('useTest', useTest); 
-init('useUserInfo', useUserInfo); 
-
+${writeInit(models)}
 
 ReactDOM.render(
   <React.StrictMode>
@@ -44,3 +49,9 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+`;
+};
+
+module.exports = {
+  writeMainFile,
+};

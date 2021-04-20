@@ -1,24 +1,27 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+import Header from './Header';
+import Content from './Content';
 import './App.css';
 
 function App() {
+  const [headerVisible, setHeaderVisible] = useState(true);
+  const [contentVisible, setContentVisible] = useState(true);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="App">
+        {headerVisible && <Header />}
+        {contentVisible && <Content />}
+      </div>
+
+      <div>
+        <button onClick={() => setHeaderVisible((v) => !v)}>
+          {headerVisible ? '关闭' : '开启'}header
+        </button>
+        <button onClick={() => setContentVisible((v) => !v)}>
+          {contentVisible ? '关闭' : '开启'}content
+        </button>
+      </div>
+    </>
   );
 }
 
